@@ -13,6 +13,8 @@
 		85EC68FC24CD69AD0028C169 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85EC68FA24CD69AD0028C169 /* Main.storyboard */; };
 		85EC68FE24CD69B40028C169 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85EC68FD24CD69B40028C169 /* Assets.xcassets */; };
 		85EC690124CD69B40028C169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85EC68FF24CD69B40028C169 /* LaunchScreen.storyboard */; };
+		85EC690924CD6C190028C169 /* ColorNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC690824CD6C190028C169 /* ColorNavigationController.swift */; };
+		85EC690B24CDCBA20028C169 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC690A24CDCBA20028C169 /* InfoTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		85EC68FD24CD69B40028C169 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85EC690024CD69B40028C169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85EC690224CD69B40028C169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85EC690824CD6C190028C169 /* ColorNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNavigationController.swift; sourceTree = "<group>"; };
+		85EC690A24CDCBA20028C169 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				85EC68F424CD69AD0028C169 /* AppDelegate.swift */,
 				85EC68F624CD69AD0028C169 /* SceneDelegate.swift */,
 				85EC68F824CD69AD0028C169 /* ViewController.swift */,
+				85EC690A24CDCBA20028C169 /* InfoTableViewController.swift */,
+				85EC690824CD6C190028C169 /* ColorNavigationController.swift */,
 				85EC68FA24CD69AD0028C169 /* Main.storyboard */,
 				85EC68FD24CD69B40028C169 /* Assets.xcassets */,
 				85EC68FF24CD69B40028C169 /* LaunchScreen.storyboard */,
@@ -139,6 +145,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				85EC68F924CD69AD0028C169 /* ViewController.swift in Sources */,
+				85EC690B24CDCBA20028C169 /* InfoTableViewController.swift in Sources */,
+				85EC690924CD6C190028C169 /* ColorNavigationController.swift in Sources */,
 				85EC68F524CD69AD0028C169 /* AppDelegate.swift in Sources */,
 				85EC68F724CD69AD0028C169 /* SceneDelegate.swift in Sources */,
 			);
