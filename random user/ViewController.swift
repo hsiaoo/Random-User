@@ -8,11 +8,31 @@
 
 import UIKit
 
-struct  user {
+struct  user: Decodable {
     var name: String?
     var email: String?
     var number: String?
     var image: String?
+}
+
+struct AllData: Decodable {
+    var results: [SingleData?]
+}
+
+struct SingleData: Decodable {
+    var name: Name?
+    var email: String?
+    var phone: String?
+    var picture: Picture?
+}
+
+struct Name: Decodable {
+    var first: String?
+    var last: String?
+}
+
+struct Picture: Decodable {
+    var large: String?
 }
 
 
@@ -20,14 +40,18 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
-    var infoViewController: InfoTableViewController?
+    @IBAction func makeNewUser(_ sender: Any) {
+        if isDownloading == false {
+            downloadInfo()
+        }
+    }
     
-    let aUser = user(name: "King", email: "abc@gmail.com", number: "0900-987-654", image: "http://pic.me")
+    var infoViewController: InfoTableViewController?
+    var isDownloading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        settingInfo(user: aUser)
-
+        downloadInfo()
 
     }
     
@@ -48,7 +72,94 @@ class ViewController: UIViewController {
         userNameLabel.text = user.name
         infoViewController?.phoneLabel.text = user.number
         infoViewController?.emailLabel.text = user.email
+        //將image字串存入imageAddress
+        if let imageAddress = user.image {
+            //將imageAddress字串轉型成URL
+            if let imageURL = URL(string: imageAddress) {
+                //使用URLSession下載imageURL
+                let task = URLSession(configuration: .default).dataTask(with: imageURL, completionHandler: {
+                    (url, response, error) in
+                    if error != nil {
+                        DispatchQueue.main.async {
+                            self.popAlert(withTitle: "Sorry")
+                            self.isDownloading = false
+                        }
+                        
+                        return
+                    }
+                    //成功下載後，設定顯示圖片
+                    if let okURL = url {
+                        if let downloadImage = UIImage(data: okURL) {
+                            DispatchQueue.main.async {
+                                self.userImage.image = downloadImage
+                                self.isDownloading = false
+                            }
+                        }
+                    }
+                })
+                task.resume()
+                isDownloading = true
+            }
+        }
     }
+    
+    func downloadInfo() {
+        if let url = URL(string: "https://randomuser.me/api/") {
+            let task = URLSession(configuration: .default).dataTask(with: url, completionHandler: {
+                (data, response, error) in
+                if error != nil {
+                    let errorCode = (error! as NSError).code
+                    if errorCode == -1009 {
+                        DispatchQueue.main.async {
+                            self.popAlert(withTitle: "No Internet Connection")
+                            self.isDownloading = false
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.popAlert(withTitle: "Sorry")
+                            self.isDownloading = false
+                        }
+                    }
+                    
+                    return
+                }
+                
+                if let loadedData = data {
+                    do {
+                        let okData = try JSONDecoder().decode(AllData.self, from: loadedData)
+                        let firstname = okData.results[0]?.name?.first
+                        let lastname = okData.results[0]?.name?.last
+                        let fullname: String? = {
+                            guard let okFirstname = firstname, let okLastname = lastname else { return nil }
+                            return okFirstname + " " + okLastname
+                        }()
+                        let email = okData.results[0]?.email
+                        let phone = okData.results[0]?.phone
+                        let picture = okData.results[0]?.picture?.large
+                        let aUser = user(name: fullname, email: email, number: phone, image: picture)
+                        DispatchQueue.main.async {
+                            self.settingInfo(user: aUser)
+                            self.isDownloading = false
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            self.popAlert(withTitle: "Sorry")
+                            self.isDownloading = false
+                        }
+                    }
+                }
+            })
+            task.resume()
+            isDownloading = true
+        }
+    }
+    
+    func popAlert(withTitle title: String) {
+        let errorAlert = UIAlertController(title: title, message: "Please try again later.", preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(errorAlert, animated: true, completion: nil)
+    }
+    
 
 
 }
